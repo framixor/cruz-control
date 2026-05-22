@@ -1,0 +1,25 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+  background-color: var(--surface-default);
+  color: var(--surface-text-primary);
+  gap: var(--spacing-md);
+}
+
+.list {
+  list-style: none;
+  margin: var(--spacing-none);
+  padding: var(--spacing-none);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.empty {
+  padding: var(--spacing-md);
+  color: var(--surface-text-secondary);
+  font-size: var(--typography-body-size);
+  font-weight: var(--typography-body-weight);
+  line-height: var(--typography-body-lineHeight);
+}
