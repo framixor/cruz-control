@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-raised);
+  color: var(--surface-text-primary);
+  border-color: var(--surface-border-default);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  font-family: var(--typography-fontFamily-sans);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.category {
+  color: var(--surface-text-secondary);
+  font-size: var(--typography-caption-size);
+  font-weight: var(--typography-caption-weight);
+  line-height: var(--typography-caption-lineHeight);
+  letter-spacing: var(--typography-caption-letterSpacing);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: var(--spacing-none);
+  color: var(--surface-text-primary);
+  font-size: var(--typography-heading-size);
+  font-weight: var(--typography-heading-weight);
+  line-height: var(--typography-heading-lineHeight);
+  letter-spacing: var(--typography-heading-letterSpacing);
+}
+
+.description {
+  margin: var(--spacing-none);
+  color: var(--surface-text-secondary);
+  font-size: var(--typography-body-size);
+  font-weight: var(--typography-body-weight);
+  line-height: var(--typography-body-lineHeight);
+  letter-spacing: var(--typography-body-letterSpacing);
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-accent);
+  color: var(--surface-accent-contrast);
+  border-style: none;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--typography-body-size);
+  font-weight: var(--typography-body-weight);
+}
+
+.toggle[aria-pressed="true"] {
+  background-color: var(--surface-sunken);
+  color: var(--surface-text-primary);
+}
+
+.figure {
+  margin: var(--spacing-none);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.caption {
+  font-size: var(--typography-caption-size);
+  font-weight: var(--typography-caption-weight);
+  line-height: var(--typography-caption-lineHeight);
+  letter-spacing: var(--typography-caption-letterSpacing);
+}

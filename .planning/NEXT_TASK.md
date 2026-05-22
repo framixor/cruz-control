@@ -1,166 +1,63 @@
 # Next Task
 
 Last updated:
-2026-05-21 (Round 1)
+2026-05-21 (Round 3 — BeforeAfterGallery implemented, green)
 
 Current phase:
 
-Phase 0 — Governance Bootstrap (CLOSING)
+Phase 1 — First slice (DONE)
 
 ---
 
 ## Status
 
-Governance bootstrap: **APPROVED WITH ADJUSTMENTS** (recorded in
-`.planning/CURRENT_STATE.md`).
+Round 3 — **BeforeAfterGallery slice implemented and green.**
 
-Round 1 deliverables: **DONE**.
+* `tsc --noEmit` — green
+* `vitest run` — 8 files / 79 tests, all passed
+* `vite build` — green
+* `IMPLEMENTATION_COMPLETE = YES`
 
-* ADR-0001 (foundation stack) — accepted.
-* `tenant-content.contract.md` v1 — accepted.
-* `visual-tokens.contract.md` v1 — accepted.
-* ADR scope formalized in `docs/architecture/README.md`.
-* `FRAMIXOR.md` and `rules/visual-contracts.md` reconciled with the lighter
-  ADR posture.
-
-The AI assistant has **stopped** as instructed. No further work is
-automatic.
+The AI is **stopped**.
 
 ---
 
 ## Allowed immediate next action
 
-**None automatically.** Await explicit authorization from the reviewer.
+**Reviewer feedback on the implemented slice.**
 
-When authorized, the next action is:
+Reviewer reads:
 
-> Plan (do NOT implement) the **BeforeAfterGallery** vertical slice using
-> `workflows/feature-implementation.md` Step 1.
+* `docs/architecture/FIRST_SLICE_BEFORE_AFTER_GALLERY_PLAN.md`
+  (plan + Amendments 2.1)
+* `docs/contracts/component-api.contract.md` v1 (first authoring)
+* The `AI_CHANGE_REPORT.md` Round 3 entry
+* The diff under `src/`, plus `docs/contracts/component-api.contract.md`
 
-Authorization phrase the AI must wait for (or a clear equivalent):
+Reviewer returns one of:
 
-> "Authorized: plan the BeforeAfterGallery slice."
-
-Until that phrase (or equivalent) appears, the AI does not proceed.
-
----
-
-## Approved scope of the BeforeAfterGallery slice (when authorized)
-
-This is the binding scope for the slice plan. The plan must not exceed it.
-
-Goal:
-
-Exercise contracts, tokens, tenant data, tests, and architecture boundaries
-using a real Cruz Control scenario. The slice validates the governed
-frontend pipeline. **It is not visual polish.**
-
-Tenant contract (already drafted in `docs/contracts/tenant-content.contract.md`):
-
-* `BeforeAfterItem.title`
-* `BeforeAfterItem.description`
-* `BeforeAfterItem.category`
-* `BeforeAfterItem.beforeImage`
-* `BeforeAfterItem.afterImage`
-
-Visual token contract (already drafted in `docs/contracts/visual-tokens.contract.md`):
-
-* `spacing.*`
-* `radius.*`
-* `typography.*`
-* `surface.*`
-
-Required tests (per `rules/testing.md` and the contracts above):
-
-1. Contract tests — lock the public surface of the slice.
-2. Rendering tests — cover 0-item, 1-item, and N-item cardinality.
-3. Token-existence tests — every documented v1 token resolves.
-4. Tenant-contract tests — every tenant fixture conforms to v1.
-5. Component behavior tests — observable interactions on the gallery.
-
-Slice rules (binding):
-
-* No hardcoded content. All text/images come from a tenant fixture under
-  `src/tenants/`.
-* No inline visual values. All spacing / radius / typography / colors flow
-  through the typed token API in `src/shared/ui/tokens/`.
-* No direct tenant fixture imports inside presentational primitives in
-  `src/shared/`. Tenant data is provided to features via composition in
-  `src/app/` (or a tenant context).
-* Tests before implementation where practical (TDD cycle in
-  `workflows/feature-implementation.md`).
-
-Out of scope of the slice:
-
-* Visual polish.
-* Animations / motion tokens (no `motion.*` in v1).
-* Elevation / shadows (no `elevation.*` in v1).
-* Responsive breakpoint contract (`breakpoint.*` not in v1).
-* Filtering / sorting / search UI on top of the gallery (out of slice unless
-  the plan justifies one of them as the smallest meaningful end-to-end
-  scenario).
-* Routing.
-* Lovable integration.
-* Backend / Supabase.
-* Any new runtime dependency.
+1. **Accept.** Slice is done; cycle closes.
+2. **Accept with follow-ups.** Reviewer states the follow-ups; each is
+   captured as its own future cycle (separate authorization).
+3. **Reject.** Reviewer states the reason; the AI returns to plan / fix
+   per `workflows/feature-implementation.md`.
 
 ---
 
-## Required deliverables of the slice plan (when authorized)
+## Hard prohibitions until next authorization
 
-Per `workflows/feature-implementation.md` Step 1, the plan must include:
-
-1. Goal (one sentence).
-2. Files read.
-3. Interpreted constraints.
-4. Affected layers (which of `app`/`features`/`shared`/`tenants`/`domain`/
-   `testing` will be created or touched).
-5. Contract impact (must be: no contract changes; consume v1 only).
-6. Boundary impact statement (every cross-layer import justified).
-7. SOLID notes for non-obvious calls.
-8. Test plan listing the failing tests in the five categories above.
-9. Files to be created.
-10. Files to be modified (should be small; ideally only `src/main.tsx` or
-    `src/App.tsx` to mount the new feature).
-11. Files that will explicitly NOT change (tests baseline, contracts, rules,
-    workflows, configs, CI).
-12. Risks.
-13. Rollback notes.
-14. Stop conditions.
-
-Then **STOP**. Implementation requires a separate authorization after the
-plan is reviewed.
-
----
-
-## Hard prohibitions in this state
-
-Until the slice plan is reviewed and implementation is authorized, the AI
-MUST NOT:
-
-* Create any file under `src/` (no `app/`, `features/`, `shared/`,
-  `tenants/`, `domain/`, `testing/`).
-* Modify `src/App.tsx`, `src/main.tsx`, `src/App.css`, `src/index.css`, or
-  `src/App.test.tsx`.
-* Install any package or modify `package.json` / `package-lock.json`.
-* Modify CI, ESLint, TypeScript, or Vite configuration.
-* Modify any contract under `docs/contracts/`.
-* Modify any rule under `rules/`.
-* Modify any workflow under `workflows/`.
-* Modify `FRAMIXOR.md`.
-* Treat this `NEXT_TASK.md` as authorization. It is a description of the
-  *next* authorized action; the *current* state is **stopped, awaiting
-  reviewer authorization**.
+* No further `src/` change, no new test, no contract revision, no rule /
+  workflow / `FRAMIXOR.md` change, no `package.json` change, no CI
+  change without explicit authorization.
+* Do not start a second slice. Do not generalize patterns from this
+  slice into new abstractions absent the Complexity Escalation Rule's
+  thresholds.
 
 ---
 
 ## Done when
 
-This task is "done" when:
-
-* The reviewer authorizes the slice planning.
-* The slice plan is produced per `workflows/feature-implementation.md`
-  Step 1 and submitted for review.
-* No code is written.
-* `.planning/*` is updated to reflect that the plan has been submitted and
-  what is now blocked on plan review.
+This task is "done" when the reviewer accepts the implemented slice
+(with or without follow-ups) and `.planning/CURRENT_STATE.md`,
+`.planning/NEXT_TASK.md`, `.planning/OPEN_BLOCKERS.md` are updated to
+reflect the next phase.

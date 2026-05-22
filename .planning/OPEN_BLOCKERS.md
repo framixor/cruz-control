@@ -1,7 +1,7 @@
 # Open Blockers
 
 Last updated:
-2026-05-21 (Round 1)
+2026-05-21 (Round 3 — slice implemented, green)
 
 ---
 
@@ -9,39 +9,25 @@ Last updated:
 
 NONE.
 
-The Vite + React + TS + Vitest stack is in place, CI is green, and
-ADR-0001 records the stack as fixed.
-
 ---
 
 ## Governance blockers
 
 NONE.
 
-The governance bootstrap was approved with adjustments on 2026-05-21. The
-adjustments are reflected in:
-
-* `docs/architecture/README.md` (ADR scope formalized).
-* `FRAMIXOR.md` (ADR-scope pointer added).
-* `rules/visual-contracts.md` (ADR coupling softened to recorded contract
-  revision; ADR escalated only for tenant-model / boundary changes).
-* `.planning/CURRENT_STATE.md` (approval recorded).
-* `.planning/NEXT_TASK.md` (BeforeAfterGallery scope written).
-
 ---
 
 ## Contract blockers
 
-NONE for the BeforeAfterGallery slice.
+NONE. v1 surfaces are now exercised by code:
 
-* `docs/contracts/tenant-content.contract.md` v1 — defines `BeforeAfterItem`
-  with `title`, `description`, `category`, `beforeImage`, `afterImage`.
-* `docs/contracts/visual-tokens.contract.md` v1 — defines `spacing.*`,
-  `radius.*`, `typography.*`, `surface.*`.
-
-The slice plan must consume these contracts as-is. Any change to either
-contract is a separate, governed cycle (revision + migration; ADR if it
-crosses the tenant-model or boundary scope).
+* `docs/contracts/tenant-content.contract.md` v1 — exercised by
+  `cruz-control` fixture and tenant-contract tests.
+* `docs/contracts/visual-tokens.contract.md` v1 — exercised by 47
+  token-existence tests against the typed token surface.
+* `docs/contracts/component-api.contract.md` v1 — first authored
+  alongside the slice (per amendment A3); exercised by the contract
+  tests of `BeforeAfterCard` and `BeforeAfterGallery`.
 
 ---
 
@@ -49,9 +35,10 @@ crosses the tenant-model or boundary scope).
 
 NONE.
 
-* DDD layers under `src/` do not exist yet, by design. The slice creates
-  only the folders it needs.
-* No layer is missing on the critical path for the slice plan.
+* Five layers exercised: `app/`, `features/`, `shared/`, `tenants/`,
+  `testing/`. `domain/` intentionally absent (Complexity Escalation
+  Rule).
+* No cross-feature import (only one feature exists).
 
 ---
 
@@ -59,91 +46,54 @@ NONE.
 
 Backlog (not blocking):
 
-* `npm run lint` is not yet a CI step.
+* `npm run lint` not in CI.
 * No coverage threshold.
-* No ESLint rule enforcing "no inline visual values" — the rule lives in
-  `rules/visual-contracts.md` and is enforced by review.
-* No path alias (`@/`) configured. If the slice plan wants one, it must
-  propose it as part of the plan; it is a small implementation detail and
-  does not require an ADR.
-
-These items remain open and may be addressed after the first slice lands.
+* No ESLint rule enforcing "no inline visual values".
+* No path alias.
 
 ---
 
 ## Lovable blockers
 
-* Lovable is **not** integrated. Integration mode is undecided.
-* `rules/lovable-rules.md` describes preventive guardrails only.
-* An ADR is required before Lovable is wired in
-  (`docs/architecture/README.md` ADR scope: "Lovable integration changes").
-
-This is **not** a blocker for the BeforeAfterGallery slice. The slice does
-not depend on Lovable.
+* Lovable not integrated; an ADR is required before wiring.
+  Not blocking the current cycle.
 
 ---
 
 ## Process blockers
 
-* The AI is **stopped, awaiting reviewer authorization** to begin slice
-  planning. See `.planning/NEXT_TASK.md`.
-* No work proceeds without that authorization.
+* Implementation complete (`IMPLEMENTATION_COMPLETE = YES`).
+* AI is **stopped**, awaiting reviewer feedback on the implemented
+  slice.
 
 ---
 
-## Blocked initiatives
+## Blocked initiatives (until reviewer accepts the slice)
 
-* Implementing BeforeAfterGallery (planning must come first, and planning
-  itself is gated on authorization).
-* Building any other UI section.
-* Replacing the Vite/React starter visuals.
-* Adding new runtime dependencies.
-* Supabase / backend integration.
+* Starting a second slice.
+* Hardening CI (lint, coverage, no-inline-values rule).
 * Lovable wiring.
-
-Reason:
-
-Awaiting reviewer authorization to begin slice planning. Once the plan is
-authored and reviewed, a separate authorization is required to begin
-implementation.
+* Any work that depends on the v1 surfaces being mature.
 
 ---
 
 ## Current status
 
 * Foundation tooling: **GREEN**
-* Governance text: **APPROVED WITH ADJUSTMENTS**
+* Governance text: **APPROVED WITH ADJUSTMENTS** (Round 1 +
+  Patch 1.1 + Patch 1.2)
 * ADR-0001: **ACCEPTED**
-* Contracts (v1): **ACCEPTED** (tenant-content, visual-tokens)
-* Ready for slice planning: **YES, awaiting explicit authorization**
-* Ready for implementation: **NO**
-
+* Contracts (v1): **ACCEPTED + EXERCISED**
+  (tenant-content, visual-tokens, component-api)
+* First slice: **IMPLEMENTED AND GREEN** (Round 3)
+* Ready for next slice: NO until reviewer accepts the current one.
 
 ---
 
 ## Future work (NOT blocking)
 
-Recorded only. No implementation in this round. No new workflows.
+Recorded only.
 
-These items are tracked here for continuity. They do not block the
-BeforeAfterGallery slice and they do not block any current cycle. Each will
-be picked up via its own change cycle when authorized.
-
-* **CI enforcement for inline visual values.** Today, the rule that forbids
-  hex / px / rem / em / ms / s literals in components under `shared/ui/` and
-  `features/` (per `rules/visual-contracts.md`) is enforced by review only.
-  A future cycle may add an ESLint rule (or equivalent) and wire it into
-  `.github/workflows/ci.yml`. Out of scope until then.
-* **Lovable integration ADR.** Authorization, integration mode (PR-based,
-  branch-based, sandbox), scope, and review obligations for Lovable-authored
-  changes need a recorded decision. The ADR is required before Lovable is
-  wired in. `rules/lovable-rules.md` already lists the allow/deny surface;
-  the ADR will pin *how* Lovable is delivered and *who* approves it. Out of
-  scope until Lovable wiring is requested.
-* **PR checklist for `.planning/` artifacts.** A short, repeatable checklist
-  to verify that any change which closes a cycle also updates
-  `.planning/CURRENT_STATE.md`, `.planning/NEXT_TASK.md`, and
-  `.planning/OPEN_BLOCKERS.md` consistently and appends an
-  `AI_CHANGE_REPORT.md` revision. The checklist itself is not a new
-  workflow — it is a single page intended to live alongside existing
-  workflows. Out of scope until authorized.
+* **CI enforcement for inline visual values.**
+* **Lovable integration ADR.**
+* **PR checklist for `.planning/` artifacts.**
